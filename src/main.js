@@ -5,6 +5,8 @@ import axios from 'axios';
 import Vuelidate from 'vuelidate';
 import { interceptorsResponse, interceptorsError } from './ajaxInterceptors';
 import router from './router'
+import middlewares from './middlewares';
+
 import './assets/tailwind.css';
 
 Vue.use(Vuelidate);
@@ -20,13 +22,3 @@ window.App = new Vue({
   router,
   render: h => h(App)
 }).$mount('#app');
-
-router.beforeEach((to, from, next) => {
-  if (to.name == 'Register' && store.getters['authentication/isAuthenticated']) next({ name: 'Home' });
-
-  if (to.name !== 'Login' && to.name !== 'Register' && ! store.getters['authentication/isAuthenticated']) next({ name: 'Login' });
-
-  if (to.name == 'Login' && store.getters['authentication/isAuthenticated']) next({ name: 'Home' });
-
-  else next()
-});
