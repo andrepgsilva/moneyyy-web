@@ -1,7 +1,6 @@
 <template>
   <div>  
-    <button @click="getBills">Get bills</button> 
-    <button @click="getBill(1)">Get bill</button>
+    
   </div>
 </template>
 
@@ -20,11 +19,11 @@ export default {
 
   methods: {
     getBills() {
-      helpers.dispatchWithFallback('bills/getBills');
+      helpers.dispatchWithFallback(this.$store, 'bills/getBills');
     },
 
     getBill(billId) {
-      helpers.dispatchWithFallback('bills/getBill', billId);
+      helpers.dispatchWithFallback(this.$store, 'bills/getBill', billId);
     }
   }
 }

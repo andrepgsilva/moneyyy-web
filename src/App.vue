@@ -4,6 +4,7 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link :to="{ name: 'Login' }">Login</router-link> |
+      <a v-on:click.prevent="logout">Logout</a> |
       <router-link :to="{ name: 'Register' }">Register</router-link> |
       <router-link :to="{ name: 'Bills' }">Bills</router-link>
     </div>
@@ -12,6 +13,16 @@
     </transition>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    logout() {
+      this.$store.dispatch('authentication/logout');
+    },
+  }
+}
+</script>
 
 <style>
 body {

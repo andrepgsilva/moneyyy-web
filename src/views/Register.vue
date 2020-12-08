@@ -182,7 +182,7 @@ export default {
       // Verify form errors
       this.$v.$touch();
 
-      helpers.dispatchWithFallback('authentication/register', credentials)
+      helpers.dispatchWithFallback(this.$store, 'authentication/register', credentials)
     },
   }
 }

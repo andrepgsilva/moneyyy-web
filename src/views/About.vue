@@ -11,7 +11,7 @@ import helpers from '../utils/helpers.js';
 export default {
   methods: {
     getUser() {
-      helpers.dispatchWithFallback('me');      
+      helpers.dispatchWithFallback(this.$store, 'me');      
     }
   }
 }

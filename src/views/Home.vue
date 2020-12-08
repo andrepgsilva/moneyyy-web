@@ -1,9 +1,7 @@
 <template>
   <div>
-    <button @click="login">Login</button> | 
-    <button @click="logout">Logout</button> |
-    <div v-if="user">
-      <h1>{{ user.name }}</h1>
+    <div v-for="bill in bills" :key="bill.id">
+      {{ bill.name }}
     </div>
   </div>
 </template>
@@ -12,24 +10,23 @@
 import helpers from '../utils/helpers.js';
 
 export default {
+  data() {
+    return {}
+  },
+
+  created() {
+    this.getBills();
+  },
+
   computed: {
-    user() {
-      return this.$store.state.authentication.user;
+    bills() {
+      return this.$store.state.authentication.bills;
     }
   },
 
   methods: {
-    login() {
-      const credentials = {
-        email: 'andre@example.com',
-        password: '123456',
-      };
-
-      helpers.dispatchWithFallback('authentication/login', credentials);
-    },
-
-    logout() {
-      this.$store.dispatch('authentication/logout');
+    getBills() {
+      helpers.dispatchWithFallback(this.$store, 'bills/getBills');
     },
   }
 }

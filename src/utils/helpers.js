@@ -1,10 +1,10 @@
 import ActionQueue from './actionQueue.js';
 
 const helpers = {
-  dispatchWithFallback(actionName, dataForAction) {
-    if (App.$store.state.isLoadingRefreshToken) return;
+  dispatchWithFallback(vuexContext, actionName, dataForAction) {
+    if (vuexContext.state.isLoadingRefreshToken) return;
     
-    App.$store.dispatch(actionName, dataForAction)
+    vuexContext.dispatch(actionName, dataForAction)
     .catch(error => {
       if ( ! error.hasOwnProperty('response')) return;
 
