@@ -1,6 +1,8 @@
 import axios from 'axios';
 import ActionQueue from './utils/actionQueue';
 import apiRoutes from './apiRoutes';
+import vuexStore from './store/index';
+import router from './router/index';
 
 const interceptorsResponse = (response) => {
   return response;
@@ -10,31 +12,31 @@ const interceptorsError = (error) => {
   const originalRequest = error.config;
   const isUnauthorizedError = error.response.status === 401;
   const isNotRetryingTheRefreshTokenRequest = originalRequest.url != apiRoutes.auth.refreshToken;
-  const isUserLoggedIn = App.$store.state.authentication.user != null;
+  const isUserLoggedIn = vuexStore.state.authentication.user != null;
 
   if (isUnauthorizedError && isNotRetryingTheRefreshTokenRequest && isUserLoggedIn) {
-    App.$store.commit('toggleRefreshTokenLoading');
+    vuexStore.commit('toggleRefreshTokenLoading');
 
     axios.post(apiRoutes.auth.refreshToken)
       .then(() => {
-        App.$store.commit('toggleRefreshTokenLoading');
+        vuexStore.commit('toggleRefreshTokenLoading');
 
-        const actionsQueue = App.$store.state.actionsQueue;
+        const actionsQueue = vuexStore.state.actionsQueue;
         
         for (const actionName in actionsQueue) {
-          App.$store.dispatch(actionName, actionsQueue[actionName])
+          vuexStore.dispatch(actionName, actionsQueue[actionName])
             .then(() => {
               ActionQueue.deleteAnAction(actionName);
             })
         }
       })
       .catch(() => {
-        App.$store.commit('toggleRefreshTokenLoading');
+        vuexStore.commit('toggleRefreshTokenLoading');
         ActionQueue.clearQueue();
         localStorage.removeItem('user');
         
-        App.$store.commit('authentication/logoutUser');
-        App.$router.push({ 'name': 'Login' });
+        vuexStore.commit('authentication/logoutUser');
+        router.push({ 'name': 'Login' });
       });
   }
   

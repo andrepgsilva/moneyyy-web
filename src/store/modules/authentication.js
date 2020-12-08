@@ -1,5 +1,6 @@
 import axios from 'axios';
 import apiRoutes from '../../apiRoutes';
+import router from '../../router/index';
 
 export default {
   namespaced: true,
@@ -52,7 +53,7 @@ export default {
         localStorage.setItem('user', JSON.stringify(user));
 
         context.commit('clearLoginFormErrors');
-        App.$router.push({ 'name': 'About' });
+        router.push({ 'name': 'About' });
       } catch(error) {
         let errors = error.response.data.errors || [[error.response.data.error]];
         
@@ -66,14 +67,14 @@ export default {
       context.commit('logoutUser');
       localStorage.removeItem('user');
       
-      App.$router.push({ 'name': 'Login' });
+      router.push({ 'name': 'Login' });
     },
 
     async register(context, credentials) {
       try {
         await axios.post(apiRoutes.auth.register, credentials);
 
-        App.$router.push({ 'name': 'Login' });
+        router.push({ 'name': 'Login' });
       } catch(error) {
         context.commit('addErrorsToRegisterForm', error.response.data.errors);
       }

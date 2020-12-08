@@ -1,12 +1,14 @@
+import vuexStore from '../store/index';
+
 const ActionQueue = {
   maxQueue: 3,
 
   getQueueData() {
-    return App.$store.state.actionsQueue;
+    return vuexStore.state.actionsQueue;
   },
 
   setQueue(newQueue) {
-    App.$store.commit('setQueue', newQueue); 
+    vuexStore.commit('setQueue', newQueue); 
   },
 
   queueIsNotFull() {

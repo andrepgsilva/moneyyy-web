@@ -3,7 +3,6 @@ import Vuex from 'vuex';
 import axios from 'axios';
 import authentication from './modules/authentication';
 import bills from  './modules/bills';
-import apiRoutes from '../apiRoutes';
 
 Vue.use(Vuex);
 
