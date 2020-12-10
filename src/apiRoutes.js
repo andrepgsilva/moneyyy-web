@@ -9,7 +9,7 @@ const apiRoutes = {
   },
 
   bills: {
-    index: '/bills',
+    index: '/bills/',
     show: '/bills/',
   }
 }

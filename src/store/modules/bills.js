@@ -17,11 +17,17 @@ export default {
   },
 
   actions: {
-    getBills(context) {
+    getBills(context, page) {
+      let urlForRequest = apiRoutes.bills.index;
+
+      if (page > 0) {
+        urlForRequest += `?page=${page}`;
+      }
+
       return new Promise((resolve, reject) => {
-        axios.get(apiRoutes.bills.index)
+        axios.get(urlForRequest)
           .then(response => {
-            context.commit('setBills', response.data.data);
+            context.commit('setBills', response.data);
             resolve(true);
           })
           .catch(error => {
