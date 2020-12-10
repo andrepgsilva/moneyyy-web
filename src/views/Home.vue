@@ -18,8 +18,8 @@
           </div>
 
           <div class="flex flex-col justify-around md:mr-10 lg:mr-10">
-            <div></div>
-            <p>20.00€</p>
+            <p class="text-right">{{ bill.created_at }}</p>
+            <p class="text-right">{{ convertMoneyToHuman(bill.value) }}</p>
           </div>
         </div>
       </transition-group>
@@ -43,6 +43,7 @@
 <script>
 import helpers from '../utils/helpers.js';
 import Paginate from 'vuejs-paginate';
+import currency from 'currency.js';
 
 export default {
   components: { Paginate },
@@ -78,6 +79,12 @@ export default {
       this.pagination.currentPage = selectedPage;
 
       helpers.dispatchWithFallback(this.$store, 'bills/getBills', selectedPage);
+    },
+
+    convertMoneyToHuman(value) {
+      const moneyConfiguration = value => currency(value, { symbol: "€", separator: ".", decimal: ",", fromCents: true, precision: 2});
+
+      return moneyConfiguration(value).format();
     }
   }
 }
