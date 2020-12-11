@@ -47,6 +47,30 @@ export default {
             reject(error);
           })  
       });
+    },
+
+    deleteBill(context, billId) {
+      return new Promise((resolve, reject) => {
+        axios.delete(apiRoutes.bills.destroy + billId)
+          .then(response => {
+            const billsAux = JSON.parse(JSON.stringify(context.state.bills));
+
+            const billIndexForDestroy = billsAux.data.map((bill, index) => {
+              if (bill.id == billId) {
+                  return index;
+              }
+            }).sort().shift();
+
+            billsAux.data.splice(billIndexForDestroy, 1);
+
+            context.commit('setBills', billsAux);
+
+            resolve(true);
+          })
+          .catch(error => {
+            reject(error);
+          })  
+      });
     }
   }
 }

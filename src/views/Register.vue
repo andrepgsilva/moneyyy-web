@@ -1,6 +1,8 @@
 <template>
   <main class="flex justify-center items-center">
     <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <input type="hidden" :value="userTimezone">
+      
       <div class="mb-4">
         <label
           class="block text-gray-700 text-sm font-bold text-left mb-2"
@@ -155,6 +157,10 @@ export default {
   },
 
   computed: {
+    userTimezone() {
+      return Intl.DateTimeFormat().resolvedOptions().timeZone;
+    },
+
     registerFormErrors() {
       return this.$store.state.authentication.registerFormErrors;
     },

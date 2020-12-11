@@ -11,6 +11,7 @@ const apiRoutes = {
   bills: {
     index: '/bills/',
     show: '/bills/',
+    destroy: '/bills/',
   }
 }
 

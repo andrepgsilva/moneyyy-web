@@ -7,20 +7,11 @@
         tag="div"
       >
         <div 
-          class="list-complete-item flex justify-between w-3/4 sm:w-3/4 md:w-2/4 lg:w-2/4 border-2 mb-5 h-32 border-green-200" 
-          v-for="(bill, index) in bills"
-          :class="{ 'border-b-2': index + 1 == bills.length }"
+          class="list-complete-item w-3/4 sm:w-3/4 md:w-2/4 lg:w-2/4" 
+          v-for="bill in bills"
           :key="bill.id"
         >
-          <div class="flex flex-col md:ml-10 lg:ml-10 justify-around w-1/4 mt-1">
-            <p class="text-gray-900 text-left">{{ bill.categories[0].name }}</p>
-            <p class="text-gray-800 text-left">{{ bill.name }}</p>
-          </div>
-
-          <div class="flex flex-col justify-around md:mr-10 lg:mr-10">
-            <p class="text-right">{{ bill.created_at }}</p>
-            <p class="text-right">{{ convertMoneyToHuman(bill.value) }}</p>
-          </div>
+          <BillCard :bill="bill" />
         </div>
       </transition-group>
     </div>
@@ -43,10 +34,10 @@
 <script>
 import helpers from '../utils/helpers.js';
 import Paginate from 'vuejs-paginate';
-import currency from 'currency.js';
+import BillCard from '../components/BillCard';
 
 export default {
-  components: { Paginate },
+  components: { Paginate, BillCard },
 
   data() {
     return {
@@ -80,12 +71,6 @@ export default {
 
       helpers.dispatchWithFallback(this.$store, 'bills/getBills', selectedPage);
     },
-
-    convertMoneyToHuman(value) {
-      const moneyConfiguration = value => currency(value, { symbol: "€", separator: ".", decimal: ",", fromCents: true, precision: 2});
-
-      return moneyConfiguration(value).format();
-    }
   }
 }
 </script>
