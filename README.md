@@ -1,4 +1,5 @@
 # moneyyy
+Web application for Moneyyy. Bills management system.
 
 ## Project setup
 ```
